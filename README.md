@@ -8,7 +8,7 @@ A molecule can be represented by 100000 **binary** features which represent thei
 ## Caveats: 
  The dataset has an imbalanced distribution i.e., within the training set there are only 78 actives (+1) and 722 inactives (0). No information is provided for the test set regarding the distribution.
 ## Description
-Input matrix has shape of 800*100000 and the test data have a matrix of shpe 350*100000.
+Input matrix has shape of 800-100000 and the test data have a matrix of shpe 350-100000.
 Data is a **sparse matrix** of 100000 binary attributes so for eaach observation only the indices of the non zero column are provided.
 
 # Application Architecture and Module Division
