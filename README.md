@@ -22,6 +22,8 @@ The data was not in a conventional csv format but the data was in a tax file. Si
 To tackle this problem the data was read from a classical text file and was converted to data frame using Data_Getter class.
 I have not converted this data frame to csv due to its size.
 
+I split data for training and testing for models and when this was done therewas found no mis balance in the classes of the data. Proportion of class 1 was .0953125 for training data and it was .10625 for the test set
+
 ## Model Selection
 There are two challanges here in modelling the classifier: 
 1. Number of features is very high 
@@ -37,17 +39,24 @@ ML models tried for classification are:
   2. Decision Tree
   3. Adaboost
   4. Random Forest
-  5. SVM
-  6. Logistic Regression
 
 Most of the algorithms, being non-parametric, won't require **SMOTE(Synthetic Minority Oversampling Technique)** or any such oversampling technique. But I will use SMOTE in some cases.
 
 ## Dimenstion Reduction
 * **PCA**: 
-  * Why: 
+I used PCA with 500 principle components that described total of 71% of the variance in the data. And I applied DecisionTree, RandomForest, Adaboost, KNNeighbourClassifier. The results are pretty amazing and 
 
+              Accuracy Score | F1 Score | F1-0 | F1-1 |
+-------------|-------------- |----------|------|------|
+KNN          |    0.91875    |  0.92    | 0.94 | 0.00 |
+RandomForest |    0.925      |  0.93    | 0.96 | 0.43 |                        oob_score=0.92
+DecisionTree |    0.89375    |  0.89    | 0.94 | 0.37 |
+AdaBoost     |    0.94375    |  0.94    | 0.97 | 0.73 |
+
+I find the Adaboost technique very appealing. Now lets use SparsePCA to get the best-fit models.
 
 ## Model Tuning 
+I used GridSearchCV to crossvalidate and get the best estimators and it produced some really good results.
 
 ## Prediction 
 
