@@ -25,6 +25,25 @@ I have not converted this data frame to csv due to its size.
 ## Data Preprocessing
 
 ## Model Selection
+There are two challanges in modelling a classifier
+1. Number of features is very high 
+2. Data is imbalanced as there are only 78 active cases and 722 observations are inactive, therefore F1 score is preferred over accuracy score for assessing the predictions.
+
+The approaches used for dimensionality reduction are:
+* Principle Component Analysis
+* **Sparse PCA** (With L1 penalty tuning)
+For PCA I will code in notebook, in directory model_eda, for the number of components taken and the vriance described by them.
+
+ML models tried for classification are:
+  1. KNN
+  2. Decision Tree
+  3. Adaboost
+  4. Random Forest
+  5. SVM
+  6. Logistic Regression
+
+Most of the algorithms, being non-parametric, won't require **SMOTE(Synthetic Minority Oversampling Technique)** or any such oversampling technique. But I will use SMOTE in some cases.
+
 
 ## Model Tuning 
 
