@@ -1,5 +1,5 @@
 """
-This is a supporting file for the data_maker.py not intended to be used directly
+This is a supporting file for the data_maker.py not intended to be used directly.
 """
 import pandas as pd
 import numpy as np
@@ -26,7 +26,7 @@ class Data_Getter():
                 observation.append(int(item))
             data.append(observation)
 
-        self.logger.log(self.log_file,"Data Successfully Transformed")
+        self.logger.log(self.log_file,"Data Successfully Transformed from text to list format")
 
         # Matrix Creation
         matrix=[]
