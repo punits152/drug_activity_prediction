@@ -61,11 +61,10 @@ I used GridSearchCV to crossvalidate and get the best adaboost estimator whic is
 |----------|------|------|
 |  0.95    | 0.97 | 0.75 |
 
-## Prediction 
-
 ## Logging Framework
 I have implemented a logger in every class i formed and App_Logger class is present in logger.py
 The logging file is present in  directory, log_files.
 Every time a function is operated the actions are logged in that file with the date and time.
 
 ## Deployment
+I have not deployed it on cloud instead i have produced a gui web application using flask web framework. It can be used using the run.py all the requirements to use the application are in requirements.txt.
