@@ -1,4 +1,5 @@
 from functionality.data_maker import Data_Maker
+from functionality.models import *
 
 # Now this simple snippet will do all the task for you to train test split 
 # Now all you have to do is just fit the models and predict. But it will take some time to do all the work

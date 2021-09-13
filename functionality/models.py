@@ -1,37 +1,26 @@
-import numpy as np
-from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.decomposition import PCA
-from sklearn.decomposition import SparsePCA
+from sklearn.ensemble import AdaBoostClassifier
+from functionality.logger import App_Logger
+from functionality.data_maker import Data_Maker
+from functionality.models import *
 
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import GridSearchCV
+logger = App_Logger()
+log_file_path = "log_files/train_log.txt"
+log_file_obj = open(log_file_path,"w")
 
-
-def get_reduced(X,Y,logger_obj,log_file_obj):
+def fit_best_model(X,Y,logger,log_file_obj):
     """
-    This function will provide the reduced data in train and test format
+    Returns a Adaboost classifier with n_estimators = 300. For more info about model selection see notebook
+    I have used GridSearchCV to get the best n_estimators and it gave the best results
     """
+    model = AdaBoostClassifier(n_estimators=300,random_state=1234)
+    logger.log(log_file_obj,"Created Adaboost model")
 
-    # I will decide between PCA or SparsePCA for reference see notebook
-    num_compo = 500
-    pca = PCA(n_components=num_compo,random_state=1234,svd_solver="auto")
-    X_reduced = pca.fit_transform(X)
-    explained_variance = np.sum(pca.explained_variance_ratio_)
-    logger_obj.log(log_file_obj,f"Successfully reduced dimensions to {num_compo} with total {explained_variance}% of variance explained")
+    model.fit(X,Y)
 
-    # Now I will create the train and test data
+    return model 
 
-    X_train, X_test, y_train, y_test = train_test_split(X_reduced,Y)
-
-    logger_obj.log(log_file_obj,"Train and Test data created")
-
-    return (X_train,X_test,y_train,y_test)
-
-#def decision_tree_classifier(X_train,X_test,y_train,y_test):
-    # will use gridsearchCV to find the best classifier
-
-
-
+def predict(model,X,logger,log_file_obj):
+    y_hat = model.predict(X)
+    logger.log(log_file_obj,"Prediction Completed")
+    return y_hat
 

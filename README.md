@@ -64,5 +64,8 @@ I used GridSearchCV to crossvalidate and get the best adaboost estimator whic is
 ## Prediction 
 
 ## Logging Framework
+I have implemented a logger in every class i formed and App_Logger class is present in logger.py
+The logging file is present in  directory, log_files.
+Every time a function is operated the actions are logged in that file with the date and time.
 
 ## Deployment
