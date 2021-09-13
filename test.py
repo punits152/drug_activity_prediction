@@ -7,4 +7,10 @@ data_file_path = "data/dorothea_train.data"
 label_file_path = "data/dorothea_train.labels"
 
 data_maker = Data_Maker(data_file_path,label_file_path)
-X_train,X_test,y_train,y_test = data_maker.make_data()
+X_train,X_test,Y_train,Y_test = data_maker.make_data()
+
+model = fit_best_model(X_train,Y_train)
+
+# Its just for test purpose 
+y_hat = predict(model,X_test)
+
