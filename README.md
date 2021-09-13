@@ -46,17 +46,20 @@ Most of the algorithms, being non-parametric, won't require **SMOTE(Synthetic Mi
 * **PCA**: 
 I used PCA with 500 principle components that described total of 71% of the variance in the data. And I applied DecisionTree, RandomForest, Adaboost, KNNeighbourClassifier. The results are pretty amazing and 
 
-| Models      |Accuracy Score | F1 Score | F1-0 | F1-1 |
-|-------------|-------------- |----------|------|------|
-|KNN          |    0.91875    |  0.92    | 0.94 | 0.00 |
-|RandomForest |    0.925      |  0.93    | 0.96 | 0.43 |                      
-|DecisionTree |    0.89375    |  0.89    | 0.94 | 0.37 |
-|AdaBoost     |    0.94375    |  0.94    | 0.97 | 0.73 |
+| Models      |Accuracy Score | F1-0 | F1-1 |
+|-------------|-------------- |------|------|------|
+|KNN          |    0.91875    | 0.94 | 0.00 |
+|RandomForest |    0.925      | 0.96 | 0.43 |                      
+|DecisionTree |    0.89375    | 0.94 | 0.37 |
+|AdaBoost     |    0.94375    | 0.97 | 0.73 |
 
-I find the Adaboost technique very appealing. Now lets use SparsePCA to get the best-fit models.
+I find the Adaboost technique very appealing because for category 1 we get best f1 score score.
 
 ## Model Tuning 
-I used GridSearchCV to crossvalidate and get the best estimators and it produced some really good results.
+I used GridSearchCV to crossvalidate and get the best adaboost estimator whic is found for the best n_estimators = 300 and the classification_report is 
+| F1 Score | F1-0 | F1-1 |
+|----------|------|------|
+|  0.95    | 0.97 | 0.75 |
 
 ## Prediction 
 
