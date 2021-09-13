@@ -4,6 +4,8 @@ from functionality.logger import App_Logger
 from sklearn.decomposition import PCA
 from sklearn.decomposition import SparsePCA
 from functionality.models import *
+import numpy as np
+from sklearn.model_selection import train_test_split
 
 def get_reduced(X,Y,logger_obj,log_file_obj):
     """

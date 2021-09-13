@@ -68,3 +68,6 @@ Every time a function is operated the actions are logged in that file with the d
 
 ## Deployment
 I have not deployed it on cloud instead i have produced a gui web application using flask web framework. It can be used using the run.py all the requirements to use the application are in requirements.txt.
+
+## Note 
+I will make csv of reduced matrix and the model produced also to make the app smooth but the training will take more time
