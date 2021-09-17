@@ -8,8 +8,8 @@ import pandas as pd
 logger_obj = App_Logger()
 log_file = open("log_files/train_log.txt","a")
 
-with open("best_model.pickle","rb") as f:
-    estimator = pickle.load(f)
+#with open("best_model.pickle","rb") as f:
+#estimator = pickle.load(f)
 
 with open("PCA_obj.pickle","rb") as f:
     pca = pickle.load(f)
@@ -21,7 +21,7 @@ labels = pd.read_csv("reduced_data_frames/test_labels.csv",index_col=0)
 
 model = fit_best_model(reduced_train_data,reduced_train_labels,logger_obj, log_file)
 
-predictions = estimator.predict(reduced_data)
+predictions = model.predict(reduced_data)
 predictions = pd.DataFrame(predictions)
 predictions.to_csv("reduced_data_frames/predictions.csv")
 

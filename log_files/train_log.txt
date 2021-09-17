@@ -1,11 +1,7 @@
-2021-09-17/19:52:38		Data Successfully Transformed from text to list format
-2021-09-17/19:53:43		DataFrame Successfully Created and Exported
-2021-09-17/19:53:44		Labels are Successfully Created for train and test
-2021-09-17/19:55:54		pca model exported
-2021-09-17/19:55:54		Successfully reduced dimensions to 500 with total 0.7128699467193923% of variance explained
-2021-09-17/19:55:54		Train and Test data created
-2021-09-17/19:55:57		Reduced data sets for train and test are produced successfully
-2021-09-17/19:57:51		Created Adaboost model
-2021-09-17/19:58:18		Training Completed
-2021-09-17/20:03:31		Created Adaboost model
-2021-09-17/20:03:51		Training Completed
+2021-09-18/02:52:21		Data Successfully Transformed from text to list format
+2021-09-18/02:53:48		DataFrame Successfully Created and Exported
+2021-09-18/02:53:48		Labels are Successfully Created for train and test
+2021-09-18/02:56:42		pca model exported
+2021-09-18/02:56:42		Successfully reduced dimensions to 500 with total 0.7128699467193923% of variance explained
+2021-09-18/02:56:43		Train and Test data created
+2021-09-18/02:56:51		Reduced data sets for train and test are produced successfully
