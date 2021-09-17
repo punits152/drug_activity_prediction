@@ -13,7 +13,7 @@ def fit_best_model(X,Y,logger_obj,log_file_obj):
     logger_obj.log(log_file_obj,"Created Adaboost model")
 
     model.fit(X,Y)
-    logger_obj.log(log_file_obj,"Fitted the model on data")
+    logger_obj.log(log_file_obj,"Training Completed")
 
     with open("model/best_model.pickle","wb") as f:
         pickle.dump(model,f)
