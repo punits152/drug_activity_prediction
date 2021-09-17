@@ -8,6 +8,4 @@ label_path = "data/dorothea_train.labels"
 log_path = "log_files/train_log.txt"
 
 data_maker = Data_Maker(data_path,label_path,log_path)
-
 train_df,test_df,train_labels,test_labels = data_maker.make_data()
-

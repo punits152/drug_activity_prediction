@@ -11,7 +11,7 @@ from functionality import *
 
 # Homepage
 @app.route("/")
-@app.route("home")
+@app.route("/home")
 def home_page():
     return render_template("home_page.html")
 

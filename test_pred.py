@@ -14,9 +14,6 @@ with open("best_model.pickle","rb") as f:
 with open("PCA_obj.pickle","rb") as f:
     pca = pickle.load(f)
 
-#reduced_data_file = open("reduced_data_frames/test_df.csv","r")
-#label_file = open("reduced_data_frames/test_labels.csv","r")
-#reduced_data = pca.transform(data_file)
 reduced_train_data = pd.read_csv("reduced_data_frames/train_df.csv",index_col=0)
 reduced_train_labels = pd.read_csv("reduced_data_frames/train_labels.csv",index_col=0)
 reduced_data = pd.read_csv("reduced_data_frames/test_df.csv",index_col=0)

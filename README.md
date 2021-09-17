@@ -70,6 +70,6 @@ Every time a function is operated the actions are logged in that file with the d
 I have not deployed it on cloud instead i have produced a gui web application using flask web framework. It can be used using the run.py all the requirements to use the application are in requirements.txt.
 
 ## Note 
-1. I will make csv of reduced matrix and the model produced also to make the app smooth but the training will take more time
-2. For training at leas 500 observations will be needed for pca to work properly
-3. I have not uploaded the object of pca model as it was of size not allowed to be uploaded
+1. I will make csv of reduced matrix and the model produced also to make the app smooth but the training will take more time.
+2. For training at leas 500 observations will be needed for pca to work properly.
+3. I have not uploaded the object of pca model as it was of size, that is not allowed to be uploaded.
