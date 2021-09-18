@@ -12,7 +12,7 @@ def fit_best_model(X,Y,logger_obj,log_file_obj):
     model = AdaBoostClassifier(n_estimators=300,random_state=1234)
     logger_obj.log(log_file_obj,"Created Adaboost model")
 
-    model.fit(X,Y)
+    model = model.fit(X,Y)
     logger_obj.log(log_file_obj,"Training Completed")
 
     with open("model/best_model.pickle","wb") as f:

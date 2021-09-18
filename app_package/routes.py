@@ -1,5 +1,5 @@
 from functionality.data_ingestion import Data_Getter
-from flask.helpers import url_for
+from flask.helpers import make_response, url_for
 from flask.wrappers import Response
 from werkzeug.utils import redirect
 from app_package.forms import TrainingForm, PredictionForm
@@ -58,6 +58,8 @@ def training_page():
 @app.route("/prediction",methods=["GET","POST"])
 def prediction_page():
     form = PredictionForm()
+
+
     if form.validate_on_submit():
         log_path = "log_files/train_log.txt"
         
@@ -66,41 +68,34 @@ def prediction_page():
         else:
             data_path = form.data_file_path.data
         
-        # Getting the data frame
-        data_file_obj = open(data_path,"r")
-        data_getter = Data_Getter(data_file_obj,None,logger_obj,log_file)
-        data = data_getter.get_data()
-
-        # Getting pca object to convert data
-        with open("model/PCA_obj.pickle","rb") as f:
-            pca = pickle.load(f)
-        
-        # Dimensionality reduction
-        reduced_data_test = pca.transform(data)
-        reduced_data_test = pd.DataFrame(reduced_data_test)
-
-
-        with open("best_model.pickle","rb") as f:
+        #Code goes here
+        with open("model/best_model.pickle","rb") as f:
             estimator = pickle.load(f)
 
-        reduced_train_data = pd.read_csv("reduced_data_frames/train_df.csv",index_col=0)
-        reduced_train_labels = pd.read_csv("reduced_data_frames/train_labels.csv",index_col=0)
-        
-        #these are sets from test split
-        #reduced_data = pd.read_csv("reduced_data_frames/test_df.csv",index_col=0)
-        #labels = pd.read_csv("reduced_data_frames/test_labels.csv",index_col=0)
+        file = open("data/dorothea_test.data","r")
 
-        model = fit_best_model(reduced_train_data,reduced_train_labels,logger_obj, log_file)
+        with open("model/PCA_obj.pickle","rb") as f:
+            pca = pickle.load(f)
 
-        predictions = estimator.predict(reduced_data_test)
-        predictions = pd.DataFrame(predictions)
-        predictions = predictions.to_csv("reduced_data_frames/predictions.csv")
+        data_getter = Data_Getter(file,None,logger_obj,log_file)
+        data = data_getter.get_data()
+        data = pca.transform(data)
+        data = pd.DataFrame(data)
+        data.to_csv("data.csv")
 
-        # Here we will predict the labels and will call it predictions and it will be in csv format
-        # it will generate and will use to_csvto generate csv
+        predictions = estimator.predict(data)
+        predictions = pd.Series(predictions)
+        predictions.to_csv("test_labels_generated/predictions.csv")
 
-        return Response(predictions, mimetype="text/csv",
-                                        headers={"Content-disposition":
-                                                "attachment; filename=predictions.csv"}
-                                                )
+        # Now i have to produce this file of csv to outside so lets first create one
+        file = open("test_labels_generated/predictions.csv","r")
+
+        return Response(file, mimetype="text/csv",
+                                   headers={"Content-disposition":
+                                              "attachment; filename=predictions.csv"}
+                                              )
     return render_template("predict_page.html",form = form)
+
+
+
+
