@@ -8,17 +8,17 @@ Training Page
 {% block content %}
 <body class="text-center">
     <div class="container">
-        <form method="POST" class="form-register" style="color:white">
+        <form method="POST" class="form-register" style="color:white" enctype="multipart/form-data">
         {{ form.hidden_tag() }}
         <h1>
             Give Data To Train the Model
         </h1>
         <br>
-        {{ form.data_file_path.label() }}
-        {{ form.data_file_path(class="form-control",placeholder="Data File") }}
+        {{ form.data_file.label() }}
+        {{ form.data_file(class="form-control",placeholder="Data File") }}
         
-        {{ form.data_labels_path.label() }}
-        {{ form.data_labels_path(class="form-control",placeholder="Label File") }}
+        {{ form.data_labels.label() }}
+        {{ form.data_labels(class="form-control",placeholder="Label File") }}
         
         <br>
         {{ form.submit(class="btn btn-lg btn-block btn-primary") }}

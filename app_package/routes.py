@@ -1,3 +1,4 @@
+from scipy.sparse import data
 from functionality.data_ingestion import Data_Getter
 from flask.helpers import make_response, url_for
 from flask.wrappers import Response
@@ -5,7 +6,7 @@ from werkzeug.utils import redirect
 from app_package.forms import TrainingForm, PredictionForm
 from flask.templating import render_template
 from app_package import app
-from flask import render_template
+from flask import render_template,request
 import pickle
 import pandas as pd
 from functionality.models import *
@@ -28,22 +29,32 @@ def home_page():
 
 @app.route("/training",methods=["GET","POST"])
 def training_page():
-    form = TrainingForm()
+    form = TrainingForm(request.form)
     log_path = "log_files/train_log.txt"
 
     if form.validate_on_submit():
         
         # To get to training even if no file is given
-        if (len(form.data_file_path.data)==0) and (len(form.data_labels_path.data)==0):
+        if (form.data_file.data==None) and (form.data_labels.data==None):
             data_path = "data/dorothea_train.data"
             label_path = "data/dorothea_train.labels"
+            # Lets create the files ourselves
+            data_file = open(data_path,"r")
+            label_file = open(label_path,"r")
         else:
-            data_path = form.data_file_path.data
-            label_path = form.data_labels_path.data
+            data_file = form.data_file.data
+            label_file = form.data_labels.data
+            data_file.save("uploaded_files/data_file.txt")
+            label_file.save("uploaded_files/label_file.txt")
+
+            data_file = open("uploaded_files/data_file.txt","r")
+            label_file = open("uploaded_files/label_file.txt","r")
         
         # Lets create the data frames
-        data_maker = Data_Maker(data_path,label_path,log_path)
+        data_maker = Data_Maker(data_file,label_file,log_path)
         train_df,train_labels,test_df,test_labels = data_maker.make_data()
+
+        # Here will be code for model making
 
         return redirect(url_for("home_page"))
 

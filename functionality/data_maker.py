@@ -38,9 +38,9 @@ class Data_Maker():
     This class will need the paths of data and label files and 
     produces the dimensionally reduced dataset
     """
-    def __init__(self,data_file_path,label_file_path,log_file_path):
-        self.data_file_path = data_file_path
-        self.label_file_path = label_file_path
+    def __init__(self,data_file,label_file,log_file_path):
+        self.data_file_obj = data_file
+        self.label_file_obj = label_file
         self.log_file_path = log_file_path
 
 
@@ -51,10 +51,9 @@ class Data_Maker():
         """
 
         # File for train dataset
-        data_file_obj = open(self.data_file_path,"r")
-
+        #data_file_obj = open(self.data_file_path,"r")
         # file for training data labels
-        label_file_obj = open(self.label_file_path,"r")
+        #label_file_obj = open(self.label_file_path,"r")
 
         # Logger object
         logger_obj = App_Logger()
@@ -63,7 +62,7 @@ class Data_Maker():
 
 
         # Data getter object for training data frame
-        data_getter = Data_Getter(data_file_obj,label_file_obj,logger_obj,log_file_obj)
+        data_getter = Data_Getter(self.data_file_obj,self.label_file_obj,logger_obj,log_file_obj)
         df = data_getter.get_data()
         labels = data_getter.get_data_labels()
 
