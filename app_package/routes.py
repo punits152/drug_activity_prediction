@@ -1,4 +1,5 @@
-from scipy.sparse import data
+#from scipy.sparse import data
+from werkzeug.datastructures import CombinedMultiDict
 from functionality.data_ingestion import Data_Getter
 from flask.helpers import make_response, url_for
 from flask.wrappers import Response
@@ -29,6 +30,7 @@ def home_page():
 
 @app.route("/training",methods=["GET","POST"])
 def training_page():
+    
     form = TrainingForm(request.form)
     log_path = "log_files/train_log.txt"
 
@@ -47,8 +49,8 @@ def training_page():
             data_file.save("uploaded_files/data_file.txt")
             label_file.save("uploaded_files/label_file.txt")
 
-            data_file = open("uploaded_files/data_file.txt","r")
-            label_file = open("uploaded_files/label_file.txt","r")
+            #data_file = open("uploaded_files/data_file.txt","r")
+            #label_file = open("uploaded_files/label_file.txt","r")
         
         # Lets create the data frames
         data_maker = Data_Maker(data_file,label_file,log_path)
@@ -68,31 +70,40 @@ def training_page():
 
 @app.route("/prediction",methods=["GET","POST"])
 def prediction_page():
-    form = PredictionForm()
+    form = PredictionForm(CombinedMultiDict((request.files, request.form)))
 
 
     if form.validate_on_submit():
         log_path = "log_files/train_log.txt"
         
-        if ((len(form.data_file_path.data)==0) and(len(form.data_labels_path.data)==0)):
+        data_file = None
+        if (form.data_file.data==None) and (form.data_labels.data==None):
             data_path="data/dorothea_test.data"
+            data_file = open(data_path,"r")
         else:
-            data_path = form.data_file_path.data
+            data_file = form.data_file.data
+            data_file.save("uploaded_files/data_pred_file.txt")
+            #data_file = open("uploaded_files/data_pred_file.txt","r")
+
         
         #Code goes here
         with open("model/best_model.pickle","rb") as f:
             estimator = pickle.load(f)
 
-        file = open("data/dorothea_test.data","r")
+        #file = open("data/dorothea_test.data","r")
 
         with open("model/PCA_obj.pickle","rb") as f:
             pca = pickle.load(f)
 
-        data_getter = Data_Getter(file,None,logger_obj,log_file)
+        print("PCA Imported")
+
+        data_getter = Data_Getter(data_file,None,logger_obj,log_file)
         data = data_getter.get_data()
         data = pca.transform(data)
         data = pd.DataFrame(data)
         data.to_csv("data.csv")
+
+        print("data saved too csv")
 
         predictions = estimator.predict(data)
         predictions = pd.Series(predictions)
