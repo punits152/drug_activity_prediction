@@ -1,1 +1,1 @@
-web: gunicorn run:app
+web: python run.py   --master --processes 4 --threads 2
