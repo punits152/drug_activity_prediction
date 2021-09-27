@@ -1,1 +1,1 @@
-web: python run.py   --master --processes 4 --threads 2
+web: python run.py   --main
