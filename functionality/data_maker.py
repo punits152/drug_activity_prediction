@@ -38,10 +38,11 @@ class Data_Maker():
     This class will need the paths of data and label files and 
     produces the dimensionally reduced dataset
     """
-    def __init__(self,data_file,label_file,log_file_path):
+    def __init__(self,data_file,label_file,logger_obj,log_file):
         self.data_file_obj = data_file
         self.label_file_obj = label_file
-        self.log_file_path = log_file_path
+        self.log_file = log_file
+        self.logger_obj = logger_obj
 
 
     def make_data(self):
@@ -55,20 +56,16 @@ class Data_Maker():
         # file for training data labels
         #label_file_obj = open(self.label_file_path,"r")
 
-        # Logger object
-        logger_obj = App_Logger()
-        # Log file obj
-        log_file_obj = open(self.log_file_path,"w")
 
 
         # Data getter object for training data frame
-        data_getter = Data_Getter(self.data_file_obj,self.label_file_obj,logger_obj,log_file_obj)
+        data_getter = Data_Getter(self.data_file_obj,self.label_file_obj,self.logger_obj,self.log_file)
         df = data_getter.get_data()
         labels = data_getter.get_data_labels()
 
         ### Here Code goes for reducing data and ten making test and train data
         ## We will decide if its good to have PCA OR SparsePCA
-        train_df,test_df,train_labels,test_labels = get_reduced(df,labels,logger_obj,log_file_obj)
+        train_df,test_df,train_labels,test_labels = get_reduced(df,labels,self.logger_obj,self.log_file)
         
         train_df = pd.DataFrame(train_df)
         train_df.to_csv("reduced_data_frames/train_df.csv")
@@ -82,6 +79,6 @@ class Data_Maker():
 
         
         # log all the changes
-        logger_obj.log(log_file_obj,"Reduced data sets for train and test are produced successfully")
+        self.logger_obj.log(self.log_file,"Reduced data sets for train and test are produced successfully")
 
         return (train_df,train_labels,test_df,test_labels)

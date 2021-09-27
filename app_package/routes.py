@@ -11,14 +11,8 @@ from flask import render_template,request
 import pickle
 import pandas as pd
 from functionality.models import *
-# Needed Information
 from functionality.data_maker import Data_Maker
 from functionality import *
-
-logger_obj = App_Logger()
-log_file = open("log_files/train_log.txt","a")
-
-
 
 
 # Homepage
@@ -30,13 +24,15 @@ def home_page():
 
 @app.route("/training",methods=["GET","POST"])
 def training_page():
-    
+
+    logger_obj = App_Logger()
+    log_file = open("log_files/train_log.txt","a")
+
     form = TrainingForm(request.form)
-    log_path = "log_files/train_log.txt"
 
     if form.validate_on_submit():
         
-        # To get to training even if no file is given
+        # If files are provided using them, and if nothing is provided using default ones
         if (form.data_file.data==None) and (form.data_labels.data==None):
             data_path = "data/dorothea_train.data"
             label_path = "data/dorothea_train.labels"
@@ -46,17 +42,19 @@ def training_page():
         else:
             data_file = form.data_file.data
             label_file = form.data_labels.data
-            data_file.save("uploaded_files/data_file.txt")
-            label_file.save("uploaded_files/label_file.txt")
-
-            #data_file = open("uploaded_files/data_file.txt","r")
-            #label_file = open("uploaded_files/label_file.txt","r")
+            data_file.save("uploaded_files/data_train_file.txt")
+            label_file.save("uploaded_files/label_train_file.txt")
         
         # Lets create the data frames
-        data_maker = Data_Maker(data_file,label_file,log_path)
+        data_maker = Data_Maker(data_file,label_file,logger_obj,log_file)
         train_df,train_labels,test_df,test_labels = data_maker.make_data()
 
-        # Here will be code for model making
+        # using the predefined best model for the task
+        model = fit_best_model(train_df,train_labels,logger_obj,log_file)
+
+        # Saving the model to use in prediction. It will provide some speeed
+        with open("model/best_model.pickle","wb") as f:
+            pickle.dump(model,f)
 
         return redirect(url_for("home_page"))
 
@@ -66,46 +64,50 @@ def training_page():
 
     return render_template("train_page.html",form = form)
 
-
+#CombinedMultiDict((request.files, request.form))
 
 @app.route("/prediction",methods=["GET","POST"])
 def prediction_page():
-    form = PredictionForm(CombinedMultiDict((request.files, request.form)))
+
+    # logger obj and updating the existing file
+    logger_obj = App_Logger()
+    log_file = open("log_files/train_log.txt","a")
+
+    form = PredictionForm(request.form)
 
 
     if form.validate_on_submit():
         log_path = "log_files/train_log.txt"
         
-        data_file = None
-        if (form.data_file.data==None) and (form.data_labels.data==None):
+        # If files are provided using them, and if nothing is provided using default ones
+        if form.data_file.data==None:
             data_path="data/dorothea_test.data"
             data_file = open(data_path,"r")
         else:
             data_file = form.data_file.data
             data_file.save("uploaded_files/data_pred_file.txt")
-            #data_file = open("uploaded_files/data_pred_file.txt","r")
 
         
-        #Code goes here
+        # Importing the pickle objects of estimator and pca model
         with open("model/best_model.pickle","rb") as f:
             estimator = pickle.load(f)
-
-        #file = open("data/dorothea_test.data","r")
-
         with open("model/PCA_obj.pickle","rb") as f:
             pca = pickle.load(f)
 
+        # Random test
         print("PCA Imported")
 
+        # using file to generate data frame 
         data_getter = Data_Getter(data_file,None,logger_obj,log_file)
         data = data_getter.get_data()
+        # using pcs model to reduce the data to 500 columns
         data = pca.transform(data)
         data = pd.DataFrame(data)
-        data.to_csv("data.csv")
+        
+        data.to_csv("uploaded_files/reduced_pred_data.csv")
+        # Saved the data file provided in reduced form 
 
-        print("data saved too csv")
-
-        predictions = estimator.predict(data)
+        predictions = predict(estimator,data,logger_obj,log_file)
         predictions = pd.Series(predictions)
         predictions.to_csv("test_labels_generated/predictions.csv")
 

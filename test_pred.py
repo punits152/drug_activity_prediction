@@ -11,7 +11,7 @@ log_file = open("log_files/train_log.txt","a")
 #with open("best_model.pickle","rb") as f:
 #estimator = pickle.load(f)
 
-with open("PCA_obj.pickle","rb") as f:
+with open("model/PCA_obj.pickle","rb") as f:
     pca = pickle.load(f)
 
 reduced_train_data = pd.read_csv("reduced_data_frames/train_df.csv",index_col=0)
