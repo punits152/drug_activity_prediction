@@ -73,3 +73,11 @@ I have not deployed it on cloud instead i have produced a gui web application us
 1. I will make csv of reduced matrix and the model produced also to make the app smooth but the training will take more time.
 2. For training at leas 500 observations will be needed for pca to work properly.
 3. I have not uploaded the object of pca model as it was of size, that is not allowed to be uploaded. But dont worry will be created iteslf in model directory
+
+## A look:
+
+![](info/homepage.jpeg)
+
+![](info/training_page.jpeg)
+
+![](info/pred_page.jpeg)
